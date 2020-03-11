@@ -1,0 +1,8 @@
+# TODO File
+
+Errors:
+
+Tasks:
+* Create Computational Class (Scheduler)
+ * Write Scheduler.calculate()
+* Write OutputWindow (Object[][] to JTable)
