@@ -34,7 +34,14 @@ public class MacroParameterPanel extends JPanel {
 		this.fieldname = fieldname;
 		
 		parameters = new Object[0][2];
+		initialize();
+	}
+	
+	public MacroParameterPanel(MacroPanel parent) {
+		this2 = this;
+		this.parent = parent;
 		
+		parameters = new Object[0][2];
 		initialize();
 	}
 	

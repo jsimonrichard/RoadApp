@@ -32,9 +32,10 @@ public class MacroPanel extends JPanel {
 	
 	public MainWindow parent;
 	
-	MacroParameterPanel damage_panel;
-	MacroParameterPanel length_panel;
-	MacroParameterPanel traffic_panel;
+	public MacroParameterPanel damage_panel;
+	public MacroParameterPanel length_panel;
+	public MacroParameterPanel traffic_panel;
+	public IDParameterPanel id_panel;
 
 	/**
 	 * Create the panel.
@@ -52,6 +53,8 @@ public class MacroPanel extends JPanel {
 		
 		traffic_panel = new MacroParameterPanel(this, "Traffic Volume");
 		add(traffic_panel);
-
+		
+		id_panel = new IDParameterPanel(this);
+		add(id_panel);
 	}
 }

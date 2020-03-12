@@ -54,6 +54,7 @@ public class MainWindow {
 	private MacroPanel macrosubpanel;
 	
 	// Data Variables
+	HashMap<String,String> id_map;
 	public HashMap<String,String[]> colname_map;
 	HashMap<String,String> path_map;
 
@@ -189,8 +190,19 @@ public class MainWindow {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Scheduler scheduler = new Scheduler(colname_map, path_map, macrosubpanel, contractorpanel);
-			scheduler.calculate();
+			// Load id_map
+			for(int i = 0; i<macrosubpanel.id_panel.parameters.length; i++) {
+				id_map.put((String) macrosubpanel.id_panel.parameters[i][0], (String) macrosubpanel.id_panel.parameters[i][1]);
+			}
+			
+			// Schedule
+			Scheduler scheduler = new Scheduler(id_map, colname_map, path_map, macrosubpanel, contractorpanel);
+			try {
+				scheduler.calculate();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			OutputWindow outputwindow = new OutputWindow(scheduler.getOutput());
 		}
 		

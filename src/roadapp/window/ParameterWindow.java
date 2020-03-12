@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import roadapp.parameter.IDParameterPanel;
 import roadapp.parameter.MacroParameterPanel;
 import roadapp.parameter.ParameterPanel;
 
@@ -38,7 +39,7 @@ public class ParameterWindow {
 		panel = new ParameterPanel(this, cn, ct);
 		initialize();
 	}
-	
+
 	/**
 	 * Initialize the contents of the frame.
 	 */

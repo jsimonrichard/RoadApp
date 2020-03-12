@@ -27,6 +27,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
 import roadapp.input.ColumnInput;
+import roadapp.input.DatabaseInput;
 import roadapp.input.FileInput;
 import roadapp.input.Input;
 import roadapp.input.SpinnerInput;
@@ -133,6 +134,10 @@ public class AddRowWindow {
 				inputs[i] = new FileInput();
 				break;
 			
+			case "database":
+				inputs[i] = new DatabaseInput(this);
+				break;
+				
 			case "column":
 				inputs[i] = new ColumnInput(this);
 				break;
