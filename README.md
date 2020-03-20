@@ -14,3 +14,11 @@ We recommend that you use data from your state's department of transportation. T
 
 ### Example Parameters
 Example parameters for the data we used (as shown above) will be added in an *Example Parameters Folder*.
+
+### Platform
+This program uses JavaSE-1.8 and Java Swing.
+
+### Performance
+Depending on the amount of data imported, this program may need a lot of memory space. If it throws an OutOfMemory error, we recommend adding the flag `-Xmm2G`. This allocates 2GB of ram to the program, so other programs may run slowly while the app is calculating its output. The amount of memory may need to be adjusted as well.
+
+Please note that, although this program works, we do not think it is optimized for performance. Using the example data and the example parameters, it takes about 200 seconds to run. However, it fulfills our requirements. If you need the program to run faster and more efficiently than it already does, please feel free to make a new branch and optimize it yourself.
