@@ -12,7 +12,6 @@ import javax.swing.SwingConstants;
 import roadapp.csv.OpenCSV;
 import roadapp.parameter.MacroPanel;
 import roadapp.parameter.ParameterPanel;
-import roadapp.schedule.OutputWindow;
 import roadapp.schedule.Scheduler;
 
 import javax.swing.JButton;
@@ -34,7 +33,7 @@ import javax.swing.JScrollPane;
 
 public class MainWindow {
 
-	private JFrame frame;
+	public JFrame frame;
 	
 	// Global Panels
 	private ParameterPanel datapanel;
@@ -52,6 +51,8 @@ public class MainWindow {
 	// Globally needed components
 	private JLabel loaddata_warning_label;
 	private MacroPanel macrosubpanel;
+	
+	private JButton schedule_button;
 	
 	// Data Variables
 	HashMap<String,String> id_map;
@@ -84,12 +85,11 @@ public class MainWindow {
 		lblNewLabel.setFont(new Font("SansSerif", Font.PLAIN, 25));
 		frame.getContentPane().add(lblNewLabel, BorderLayout.NORTH);
 		
-		JButton btnNewButton = new JButton("Schedule");
-		btnNewButton.setPreferredSize(new Dimension(100, 50));
-		btnNewButton.addActionListener(new Schedule());
-		
-		btnNewButton.setMinimumSize(new Dimension(100, 50));
-		frame.getContentPane().add(btnNewButton, BorderLayout.SOUTH);
+		schedule_button = new JButton("Schedule");
+		schedule_button.setPreferredSize(new Dimension(100, 50));
+		schedule_button.addActionListener(new Schedule());
+		schedule_button.setMinimumSize(new Dimension(100, 50));
+		frame.getContentPane().add(schedule_button, BorderLayout.SOUTH);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
@@ -166,6 +166,7 @@ public class MainWindow {
 							"File not Found",
 						    JOptionPane.WARNING_MESSAGE);
 					e1.printStackTrace();
+					done = false;
 					break;
 				} catch (NullPointerException e1) {
 					JOptionPane.showMessageDialog(frame,
@@ -173,6 +174,7 @@ public class MainWindow {
 							"File not Found",
 						    JOptionPane.WARNING_MESSAGE);
 					e1.printStackTrace();
+					done = false;
 					break;
 				}
 				
@@ -181,7 +183,6 @@ public class MainWindow {
 				showMacroPanel();
 			}
 			
-			System.out.println(colname_map);
 		}
 		
 	}
@@ -190,20 +191,42 @@ public class MainWindow {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			schedule_button.setText("Scheduling...");
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			
 			// Load id_map
+			System.out.println("Loading ID map");
+			id_map = new HashMap<String,String>();
 			for(int i = 0; i<macrosubpanel.id_panel.parameters.length; i++) {
-				id_map.put((String) macrosubpanel.id_panel.parameters[i][0], (String) macrosubpanel.id_panel.parameters[i][1]);
+				String database_name = ((String) macrosubpanel.id_panel.parameters[i][0]).split("/")[0];
+				id_map.put(database_name, (String) macrosubpanel.id_panel.parameters[i][0]);
 			}
 			
 			// Schedule
-			Scheduler scheduler = new Scheduler(id_map, colname_map, path_map, macrosubpanel, contractorpanel);
+			Scheduler scheduler = new Scheduler(frame, id_map, colname_map, path_map, macrosubpanel, contractorpanel);
+			System.out.println("Calculating...");
 			try {
 				scheduler.calculate();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			
+			schedule_button.setText("Schedule");
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			
 			OutputWindow outputwindow = new OutputWindow(scheduler.getOutput());
+			outputwindow.frame.setVisible(true);
 		}
 		
 	}

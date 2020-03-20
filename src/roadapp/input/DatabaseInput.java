@@ -16,10 +16,7 @@ import roadapp.parameter.AddRowWindow;
 public class DatabaseInput extends JPanel implements Input {
 	AddRowWindow parent;
 	
-	HashMap<String,String[]> colname_map;
-	
-	String[] colnames;
-	
+	Object[] database_names;
 	DefaultComboBoxModel databasemodel;
 	
 	/**
@@ -27,14 +24,13 @@ public class DatabaseInput extends JPanel implements Input {
 	 */
 	public DatabaseInput(AddRowWindow parent) {
 		this.parent = parent;
-		this.colname_map = this.parent.parent.parent.parent.parent.parent.colname_map;
-		
+		this.database_names = this.parent.parent.parent.parent.parent.parent.colname_map.keySet().toArray();
 		initialize();
 	}
 	
 	public void initialize() {
 		
-		databasemodel = new DefaultComboBoxModel(colnames);
+		databasemodel = new DefaultComboBoxModel(database_names);
 		JComboBox database = new JComboBox<String>(databasemodel);
 		add(database);
 	}

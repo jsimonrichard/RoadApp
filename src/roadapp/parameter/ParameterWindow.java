@@ -1,13 +1,9 @@
-package roadapp.window;
+package roadapp.parameter;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import roadapp.parameter.IDParameterPanel;
-import roadapp.parameter.MacroParameterPanel;
-import roadapp.parameter.ParameterPanel;
 
 import java.awt.BorderLayout;
 import javax.swing.JButton;

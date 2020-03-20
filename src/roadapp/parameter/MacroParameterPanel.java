@@ -14,8 +14,6 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
-import roadapp.window.ParameterWindow;
-
 public class MacroParameterPanel extends JPanel {
 	
 	public MacroPanel parent;
@@ -33,7 +31,8 @@ public class MacroParameterPanel extends JPanel {
 		this.parent = parent;
 		this.fieldname = fieldname;
 		
-		parameters = new Object[0][2];
+		Object[][] initparameters = {};
+		parameters = initparameters;
 		initialize();
 	}
 	
@@ -41,7 +40,8 @@ public class MacroParameterPanel extends JPanel {
 		this2 = this;
 		this.parent = parent;
 		
-		parameters = new Object[0][2];
+		Object[][] initparameters = {};
+		parameters = initparameters;
 		initialize();
 	}
 	

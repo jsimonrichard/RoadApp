@@ -73,9 +73,8 @@ public class ColumnInput extends JPanel implements Input {
 	
 	private void updateColumns() {
 		// Get columns
-		System.out.println(databasemodel.getSelectedItem());
 		String[] columns = colname_map.get((String) databasemodel.getSelectedItem());
-		System.out.println(columns);
+		
 		// Set combo box
 		columnmodel.removeAllElements();
 		for(String column : columns) {
@@ -85,6 +84,7 @@ public class ColumnInput extends JPanel implements Input {
 
 	@Override
 	public Object getInput() {
+		
 		return String.format("%s/%s", databasemodel.getSelectedItem(), columnmodel.getSelectedItem());
 	}
 

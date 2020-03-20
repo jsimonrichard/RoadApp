@@ -21,7 +21,6 @@ import javax.swing.table.TableModel;
 import roadapp.csv.NewCSV;
 import roadapp.csv.OpenCSV;
 import roadapp.window.MainWindow;
-import roadapp.window.ParameterWindow;
 
 public class ParameterPanel extends JPanel {
 	
