@@ -3,10 +3,14 @@ RoadApp is a parametrized scheduling platform for road maintenance created for i
 
 ### Recommended Data
 In order to test and evaluate this our program we used the following data from the Ohio Department of Transportation's (ODOT) Transportation Information Mapping System (TIMS):
+
 * PCR Local
 * PCR State
 * Predicted PCR
 * Road Inventory
 * Traffic Congestion
 
-We recommend that you use data from your state's department of transportation. The data download portal for ODOT can be found at <https://gis.dot.state.oh.us/tims/Data/Download>, and the data glossary can be found at <https://gis.dot.state.oh.us/tims/Glossary>.
+We recommend that you use data from your state's department of transportation. The data download portal for ODOT can be found at <https://gis.dot.state.oh.us/tims/Data/Download>, and the data glossary can be found at <https://gis.dot.state.oh.us/tims/Glossary>. Also, please note that **all data must be formatted as a CSV file**.
+
+### Example Parameters
+Example parameters for the data we used (as shown above) will be added in an *Example Parameters Folder*.
