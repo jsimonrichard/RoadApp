@@ -3,6 +3,5 @@
 Errors:
 
 Tasks:
-* Create Computational Class (Scheduler)
- * Write Scheduler.calculate()
-* Write OutputWindow (Object[][] to JTable)
+* Add reference for non-numeric columns
+* Integrate Contractors
