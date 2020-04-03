@@ -49,7 +49,7 @@ public class MainWindow {
 	String[] datapanel_coltypes = {"string", "file"};
 	private Object[][] datapanel_default = {{"Road Inventory", "/Users/simonrichard/Desktop/Design Challenge Spring 2020/tims_csv_datasets/WGIS_ROAD_INVENTORY.csv"}};
 	
-	String[] contractorpanel_colnames = {"Name", "Availible Teams", "Cost per Lane Mile"};
+	String[] contractorpanel_colnames = {"Name", "Number of Jobs to Schedule", "Cost per Length Unit"};
 	String[] contractorpanel_coltypes = {"string", "int", "cost"};
 	
 	// Globally needed components
@@ -70,7 +70,7 @@ public class MainWindow {
 	 * Create the application.
 	 */
 	public MainWindow() {
-		loaddata_warning_label = new JLabel("Please load data first.");
+		loaddata_warning_label = new JLabel("Please load the databases first. To do that, press the \"Load Data Paths and Columns\" button on the \"Data\" tab.");
 		loaddata_warning_label.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		macrosubpanel = new MacroPanel(this); // not used yet
@@ -109,7 +109,7 @@ public class MainWindow {
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3, BorderLayout.SOUTH);
 		
-		JButton btnNewButton_1 = new JButton("Load Data");
+		JButton btnNewButton_1 = new JButton("Load Data Paths and Columns");
 		btnNewButton_1.addActionListener(new LoadDatasets());
 		panel_3.add(btnNewButton_1);
 		
