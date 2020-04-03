@@ -3,7 +3,7 @@ RoadApp is a parametrized scheduling platform for road maintenance created for i
 
 **A Disclaimer:** I am not a professional developer and this project changed a good bit along the way (like any programming project would), so this code is pretty messy. Also, since this program was written for a school project, I do not anticipate updating the code after the fact.
 
-#### Recommended Data
+### Recommended Data
 In order to test and evaluate this our program we used the following data from the Ohio Department of Transportation's (ODOT) Transportation Information Mapping System (TIMS):
 
 * PCR Local
@@ -14,16 +14,16 @@ In order to test and evaluate this our program we used the following data from t
 
 We recommend that you use data from your state's department of transportation. The data download portal for ODOT can be found at <https://gis.dot.state.oh.us/tims/Data/Download>, and the data glossary can be found at <https://gis.dot.state.oh.us/tims/Glossary>. Also, please note that **all data must be formatted as a CSV file**.
 
-#### Example Parameters
+### Example Parameters
 Example parameters for the data we used (as shown above) will be added in an *Example Parameters Folder*.
 
-#### Platform
+### Platform
 This program uses JavaSE-1.8 and Java Swing.
 
-#### Performance
+### Performance
 Depending on the amount of data imported, this program may need a lot of memory space. If it throws an OutOfMemory error, we recommend adding the flag `-Xmx2G` (or something like it). This allocates 2GB of ram to the program, so other programs may run slowly while the app is calculating its output. The amount of memory may need to be adjusted as well.
 
-### How to Use this Program
+## How to Use this Program
 
 **Uploading Data:** This is the first step. Add databases by clicking on the "Data" tab (you should already be there if you just opened the application) and then clicking on the "Add" button. In the box that opens, give the database a name and choose a file for the database (it must be a csv). The name is used to reference the database later on. Once you finish adding your databases, click the "Load Data Paths and Columns" button. This allows the program to read the columns of the databases and save them to memory so that they can be referenced individually.
 
