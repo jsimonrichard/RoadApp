@@ -48,11 +48,11 @@ public class MacroPanel extends JPanel {
 		damage_panel = new MacroParameterPanel(this, "Damage");
 		add(damage_panel);
 		
-		length_panel = new MacroParameterPanel(this, "Length");
-		add(length_panel);
-		
 		traffic_panel = new MacroParameterPanel(this, "Traffic Volume");
 		add(traffic_panel);
+		
+		length_panel = new LengthParameterPanel(this, "Length");
+		add(length_panel);
 		
 		id_panel = new IDParameterPanel(this);
 		add(id_panel);

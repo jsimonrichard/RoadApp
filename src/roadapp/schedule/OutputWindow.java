@@ -1,4 +1,4 @@
-package roadapp.window;
+package roadapp.schedule;
 
 import java.awt.EventQueue;
 import java.awt.GridLayout;
@@ -24,14 +24,15 @@ public class OutputWindow {
 	public JFrame frame;
 	
 	Object[][] schedule;
-	String[] colnames = {"ID", "Score"};
+	String[] colnames;
 	private JTable table;
 
 	/**
 	 * Create the application.
 	 */
-	public OutputWindow(Object[][] ds) {
+	public OutputWindow(Object[][] ds, String[] colnames) {
 		this.schedule = ds;
+		this.colnames = colnames;
 		initialize();
 	}
 
@@ -49,6 +50,9 @@ public class OutputWindow {
 		
 		table = new JTable(schedule, colnames);
 		scrollPane.setViewportView(table);
+		
+		// Add row numbers
+		scrollPane.setRowHeaderView(new RowNumberTable(table));
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout());

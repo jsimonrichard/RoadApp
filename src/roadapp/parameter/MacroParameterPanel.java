@@ -19,12 +19,13 @@ public class MacroParameterPanel extends JPanel {
 	public MacroPanel parent;
 	MacroParameterPanel this2;
 	
-	private String fieldname;
+	protected String fieldname;
 	public SpinnerModel weightmodel;
 	public Object[][] parameters;
 
 	/**
 	 * Create the panel.
+	 * @wbp.parser.constructor
 	 */
 	public MacroParameterPanel(MacroPanel parent, String fieldname) {
 		this2 = this;

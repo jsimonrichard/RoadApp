@@ -12,9 +12,10 @@ import javax.swing.JPanel;
 
 import roadapp.input.ColumnInput.DatabaseSelected;
 import roadapp.parameter.AddRowWindow;
+import roadapp.parameter.SettingsWindow;
+import roadapp.window.MainWindow;
 
 public class DatabaseInput extends JPanel implements Input {
-	AddRowWindow parent;
 	
 	Object[] database_names;
 	DefaultComboBoxModel databasemodel;
@@ -22,12 +23,11 @@ public class DatabaseInput extends JPanel implements Input {
 	/**
 	 * Create the panel.
 	 */
-	public DatabaseInput(AddRowWindow parent) {
-		this.parent = parent;
-		this.database_names = this.parent.parent.parent.parent.parent.parent.colname_map.keySet().toArray();
+	public DatabaseInput(MainWindow mw) {
+		this.database_names = mw.colname_map.keySet().toArray();
 		initialize();
 	}
-	
+
 	public void initialize() {
 		
 		databasemodel = new DefaultComboBoxModel(database_names);

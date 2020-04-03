@@ -3,6 +3,8 @@ package roadapp.input;
 import javax.swing.JPanel;
 
 import roadapp.parameter.AddRowWindow;
+import roadapp.parameter.SettingsWindow;
+import roadapp.window.MainWindow;
 
 import javax.swing.JLabel;
 import java.awt.Choice;
@@ -16,7 +18,8 @@ import java.util.HashMap;
 import java.awt.Dimension;
 
 public class ColumnInput extends JPanel implements Input {
-	AddRowWindow parent;
+	AddRowWindow parent1;
+	SettingsWindow parent2;
 	
 	HashMap<String,String[]> colname_map;
 	
@@ -28,9 +31,9 @@ public class ColumnInput extends JPanel implements Input {
 	/**
 	 * Create the panel.
 	 */
-	public ColumnInput(AddRowWindow parent) {
-		this.parent = parent;
-		this.colname_map = this.parent.parent.parent.parent.parent.parent.colname_map;
+	
+	public ColumnInput(MainWindow mw) {
+		this.colname_map = mw.colname_map;
 		
 		// Get Colnames
 		colnames = new String[colname_map.size()];
@@ -41,7 +44,7 @@ public class ColumnInput extends JPanel implements Input {
 		
 		initialize();
 	}
-	
+
 	public void initialize() {
 		
 		databasemodel = new DefaultComboBoxModel(colnames);

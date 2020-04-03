@@ -27,6 +27,7 @@ public class ParameterPanel extends JPanel {
 	ParameterPanel this2 = this;
 	
 	MainWindow window;
+	boolean parent_is_window = false;
 	boolean isdatapanel = false;
 	
 	public ParameterWindow parent;
@@ -81,6 +82,7 @@ public class ParameterPanel extends JPanel {
 		// Set variables
 		this.isdatapanel = isdatapanel;
 		this.window = window;
+		this.parent_is_window = true;
 		
 		colnames = cn;
 		coltypes = ct;
@@ -93,6 +95,7 @@ public class ParameterPanel extends JPanel {
 		// Set variables
 		this.isdatapanel = isdatapanel;
 		this.window = window;
+		this.parent_is_window = true;
 		
 		colnames = cn;
 		coltypes = ct;
@@ -141,8 +144,13 @@ public class ParameterPanel extends JPanel {
 	public class Add implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			AddRowWindow w = new AddRowWindow(this2, colnames, coltypes);
+			AddRowWindow w;
+			if(parent_is_window) {
+				w = new AddRowWindow(this2, window, colnames, coltypes);
+			} else {
+				w = new AddRowWindow(this2, this2.parent.parent.parent.parent, colnames, coltypes);
+			}
+			
 			w.frame.setVisible(true);
 		}
 		

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,6 +34,7 @@ public class Scheduler {
 	ArrayList<Object[]> id_lists;
 	HashMap<String,Object[]> column_value_map;
 	
+	String[] output_colnames = {"ID", "Score", "Recommended Contractor", "Cost with that Contractor"};
 	Object[][] output;
 	
 	public Scheduler(JFrame parent_frame, HashMap<String,String> id_map, HashMap<String,String[]> colname_map, HashMap<String,String> path_map, MacroPanel macropanel, ParameterPanel contractorpanel) {
@@ -112,24 +114,47 @@ public class Scheduler {
 		}
 		
 		System.out.println("Finding and Calculating Scores");
+		// Calculate Scores
 		ArrayList<Double> damage_scores = getScores(macropanel.damage_panel.parameters, id_lists.get(0).length);
-		ArrayList<Double> length_scores = getScores(macropanel.length_panel.parameters, id_lists.get(0).length);
 		ArrayList<Double> traffic_scores = getScores(macropanel.traffic_panel.parameters, id_lists.get(0).length);
 		
 		ArrayList<Double> damage_weighted_scores = multiply(damage_scores, (double) macropanel.damage_panel.weightmodel.getValue());
-		ArrayList<Double> length_weighted_scores = multiply(length_scores, (double) macropanel.length_panel.weightmodel.getValue());
 		ArrayList<Double> traffic_weighted_scores = multiply(traffic_scores, (double) macropanel.traffic_panel.weightmodel.getValue());
 		
 		ArrayList<ArrayList<Double>> weighted_scores = new ArrayList<ArrayList<Double>>();
 		weighted_scores.add(damage_weighted_scores);
-		weighted_scores.add(length_weighted_scores);
 		weighted_scores.add(traffic_weighted_scores);
 		
 		Double[] scores = sum(weighted_scores);
 		
-		System.out.println("Sorting Scores");
-		output = sort(id_lists.get(0), scores);
+		// Data for cost
+		ArrayList<Double> length_scores = getScoresNoWeights(macropanel.length_panel.parameters, id_lists.get(0).length);
+		
+		// Sort
+		System.out.println("Sorting...");
+		Object[][] data = {id_lists.get(0), scores, length_scores.toArray()};
+		Object[][] sorted_data = sortWithDouble(transpose(data), 1, -1);
 		System.out.println("Finished!");
+		
+		// Adding Recommended Contractors
+		System.out.println("Adding Recommended Contractors");
+		
+		// Calculate Cost
+		Object[][] transposed_sorted_data = transpose(sorted_data);
+		
+		Object[][] contractor_results = scheduleContractors(transposed_sorted_data[2]);
+		String[] contractors = (String[]) contractor_results[0];
+		Double[] costs = (Double[]) contractor_results[1];
+		
+		// Append data
+		Object[][] data_with_contractors = Arrays.copyOf(transposed_sorted_data, transposed_sorted_data.length+1);
+		data_with_contractors[data_with_contractors.length-2] = contractors;
+		data_with_contractors[data_with_contractors.length-1] = costs;
+		
+		System.out.println(data_with_contractors.length);
+		
+		// To output...
+		output = transpose(data_with_contractors);
 		
 		// Calculate Time Elapsed...
 		long end = System.currentTimeMillis();
@@ -137,7 +162,7 @@ public class Scheduler {
 		System.out.println(String.format("%f seconds elapsed.", duration));
 		return 1;
 	}
-	
+
 	public HashSet getColumns() {
 		HashSet columns = new HashSet<String>();
 		for(Object[] row : macropanel.damage_panel.parameters) {
@@ -184,6 +209,25 @@ public class Scheduler {
 		return scores;
 	}
 	
+	public ArrayList<Double> getScoresNoWeights(Object[][] parameters, int length) {
+		ArrayList<Double> scores = new ArrayList<Double>(Collections.nCopies(length, 0.0));
+		
+		for(Object[] row : parameters) {
+			if(column_value_map.containsKey(row[0])) {
+				for(int i = 0; i<column_value_map.get(row[0]).length; i++) {
+					try {
+						scores.set(i, scores.get(i) + Double.valueOf( column_value_map.get(row[0])[i].toString() ));
+					} catch (NumberFormatException e) {
+						System.out.println(String.format("%s did not cast.", row[0]));
+						System.out.println(String.format("Value: %s", column_value_map.get(row[0])[i]));
+					}
+				}
+			}
+		}
+		
+		return scores;
+	}
+	
 	public Double[] sum(ArrayList<ArrayList<Double>> weighted_scores) {
 		Double[] out = new Double[weighted_scores.get(0).size()];
 		Arrays.fill(out, new Double(0));
@@ -204,31 +248,95 @@ public class Scheduler {
 		
 		return out;
 	}
-	
-	public Object[][] sort(Object[] ids, Double[] scores) {
-		// Turn into table
+
+	public Object[][] sortWithDouble(Object[][] data, int sort_column_index, int direction) {
 		
-		Double[][] road_table = new Double[ids.length][2];
-		for(int i = 0; i<road_table.length; i++) {
-			Double[] row = {Double.valueOf((String) ids[i]), scores[i]};
-			road_table[i] = row;
-		}
+		Arrays.sort(data, new Comparator<Object[]>() {
+			@Override
+			public int compare(Object[] o1, Object[] o2) {
+			    try {
+					return direction*Double.compare((Double) o1[sort_column_index], (Double) o2[sort_column_index]);
+				} catch (Exception e) {
+					return direction*Double.compare(Double.valueOf((String) o1[sort_column_index]), Double.valueOf((String) o2[sort_column_index]));
+				}
+			}
+		});
 		
-		Arrays.sort(road_table, new Comparator<Double[]>() {
-			  public int compare(Double[] o1, Double[] o2) {
-				// - signs make the list decrease
-			    if (o1[1] == o2[1]) {
-			      return -Double.compare(o1[0], o2[0]);
-			    } else {
-			      return -Double.compare(o1[1], o2[1]);
-			    }
-			  }
-			});
-		
-		return road_table;
+		return data;
 	}
 	
+	private Object[][] scheduleContractors(Object[] length_scores) {
+		// Get data from contractor panel and convert to array
+		Object[] contractor_data_halfway = contractorpanel.model.getDataVector().toArray();
+		Object[][] contractor_data = new Object[contractor_data_halfway.length][((Vector) contractor_data_halfway[0]).size()];
+		for(int i = 0; i < contractor_data_halfway.length; i++) {
+			contractor_data[i] = ((Vector) contractor_data_halfway[i]).toArray();
+		}
+		
+		System.out.println((String) contractor_data[0][0]);
+		
+		// Sort
+		contractor_data = sortWithDouble(contractor_data, 2, 1);
+		
+		System.out.println((String) contractor_data[0][0]);
+		
+		// Set up needed variables
+		Double sum_of_rates = 0.0;
+		String[] output_contractors = new String[length_scores.length];
+		Double[] output_costs = new Double[length_scores.length];
+		int road_index = 0;
+		
+		// Loop through available contractors
+		for(int i = 0; i < contractor_data.length; i++) {
+			// Assign to as many roads as possible
+			int job_index = 0;
+			while(job_index < (int) contractor_data[i][1] && road_index < length_scores.length) {
+				// Assign Values
+				output_contractors[road_index] = (String) contractor_data[i][0];
+				output_costs[road_index] = ((Double) contractor_data[i][2]) * ((Double) length_scores[road_index]);
+				
+				// Increment
+				job_index++;
+				road_index++;
+			}
+			
+			// Add to sum for average
+			sum_of_rates += (Double) contractor_data[i][2];
+		}
+		
+		System.out.println(road_index);
+		
+		// Loop through the rest of the roads and give them the average rate
+		Double average_rate = sum_of_rates / contractor_data.length;
+		
+		while(road_index < length_scores.length) {
+			output_contractors[road_index] = "Estimate (No contractors/teams left)";
+			output_costs[road_index] = average_rate * ((Double) length_scores[road_index]);
+			
+			road_index++;
+		}
+		
+		Object[][] output = {output_contractors, output_costs};
+		return output;
+	}
+	
+	public Object[][] transpose(Object[][] data) {
+		int rows = data.length;
+		int columns = data[0].length;
+		Object[][] temp = new Object[columns][rows];
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				temp[j][i] = data[i][j];
+			}
+		}
+		return temp;
+	}
+
 	public Object[][] getOutput() {
 		return output;
+	}
+
+	public String[] getOutputColnames() {
+		return output_colnames;
 	}
 }

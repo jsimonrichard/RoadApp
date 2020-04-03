@@ -12,6 +12,8 @@ import javax.swing.SwingConstants;
 import roadapp.csv.OpenCSV;
 import roadapp.parameter.MacroPanel;
 import roadapp.parameter.ParameterPanel;
+import roadapp.parameter.SettingsWindow;
+import roadapp.schedule.OutputWindow;
 import roadapp.schedule.Scheduler;
 
 import javax.swing.JButton;
@@ -33,6 +35,8 @@ import javax.swing.JScrollPane;
 
 public class MainWindow {
 
+	MainWindow this2 = this;
+	
 	public JFrame frame;
 	
 	// Global Panels
@@ -45,7 +49,7 @@ public class MainWindow {
 	String[] datapanel_coltypes = {"string", "file"};
 	private Object[][] datapanel_default = {{"Road Inventory", "/Users/simonrichard/Desktop/Design Challenge Spring 2020/tims_csv_datasets/WGIS_ROAD_INVENTORY.csv"}};
 	
-	String[] contractorpanel_colnames = {"Name", "Availible Teams", "Cost per Unit"};
+	String[] contractorpanel_colnames = {"Name", "Availible Teams", "Cost per Lane Mile"};
 	String[] contractorpanel_coltypes = {"string", "int", "cost"};
 	
 	// Globally needed components
@@ -55,9 +59,12 @@ public class MainWindow {
 	private JButton schedule_button;
 	
 	// Data Variables
+	public boolean data_loaded = false;
+	
 	HashMap<String,String> id_map;
 	public HashMap<String,String[]> colname_map;
 	HashMap<String,String> path_map;
+	private JPanel panel_1;
 
 	/**
 	 * Create the application.
@@ -147,7 +154,6 @@ public class MainWindow {
 			
 			colname_map = new HashMap<String,String[]>();
 			path_map = new HashMap<String,String>();
-			boolean done = false;
 			for(Object[] row : file_data) {
 				try {
 					// Add path
@@ -158,15 +164,14 @@ public class MainWindow {
 					OpenCSV csvio = new OpenCSV((String) row[1], true); //  path
 					String[] csv_columns = csvio.getColumns(); // Get columns from csv
 					colname_map.put((String) row[0], (String[]) csv_columns); // Add to map with name as key
-					done = true;
+					data_loaded = true;
 				} catch (IOException e1) {
-					System.out.println("YEEE");
 					JOptionPane.showMessageDialog(frame,
 							String.format("%s cannot be found.\nLoading aborted.", (String) row[1]),
 							"File not Found",
 						    JOptionPane.WARNING_MESSAGE);
 					e1.printStackTrace();
-					done = false;
+					data_loaded = false;
 					break;
 				} catch (NullPointerException e1) {
 					JOptionPane.showMessageDialog(frame,
@@ -174,12 +179,12 @@ public class MainWindow {
 							"File not Found",
 						    JOptionPane.WARNING_MESSAGE);
 					e1.printStackTrace();
-					done = false;
+					data_loaded = false;
 					break;
 				}
 				
 			}
-			if(done) {
+			if(data_loaded) {
 				showMacroPanel();
 			}
 			
@@ -225,7 +230,7 @@ public class MainWindow {
 				e2.printStackTrace();
 			}
 			
-			OutputWindow outputwindow = new OutputWindow(scheduler.getOutput());
+			OutputWindow outputwindow = new OutputWindow(scheduler.getOutput(), scheduler.getOutputColnames());
 			outputwindow.frame.setVisible(true);
 		}
 		
