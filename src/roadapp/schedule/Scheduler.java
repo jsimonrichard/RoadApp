@@ -293,8 +293,8 @@ public class Scheduler {
 			int max_jobs = Integer.valueOf(contractor_data[i][1].toString());
 			while(job_index < max_jobs && road_index < length_scores.length) {
 				// Assign Values
-				output_contractors[road_index] = (String) contractor_data[i][0];
-				output_costs[road_index] = ((Double) contractor_data[i][2]) * ((Double) length_scores[road_index]);
+				output_contractors[road_index] = contractor_data[i][0].toString();
+				output_costs[road_index] = Double.valueOf(contractor_data[i][2].toString()) * ((Double) length_scores[road_index]);
 				
 				// Increment
 				job_index++;
@@ -302,7 +302,7 @@ public class Scheduler {
 			}
 			
 			// Add to sum for average
-			sum_of_rates += (Double) contractor_data[i][2];
+			sum_of_rates += Double.valueOf(contractor_data[i][2].toString());
 		}
 		
 		System.out.println(road_index);
