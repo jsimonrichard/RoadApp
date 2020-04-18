@@ -1,0 +1,9 @@
+Database,Weight
+Traffic Congestion/EXD1Y1U_NBR,0.9
+Traffic Congestion/EXD2Y1U_NBR,0.9
+Traffic Congestion/VOLUME_PER_LANE_NBR,1.0
+Traffic Congestion/TRUCK_GROWTH_NBR,0.6
+Traffic Congestion/TOTAL_LANES_NBR,0.4
+Traffic Congestion/DIRECTION_1_NBR,1.0
+Traffic Congestion/DIRECTION_2_NBR,1.0
+Traffic Congestion/CONGESTION_DELAY_NBR,0.9

@@ -6,24 +6,22 @@ RoadApp is a parametrized scheduling platform for road maintenance created for i
 ### Recommended Data
 In order to test and evaluate this our program we used the following data from the Ohio Department of Transportation's (ODOT) Transportation Information Mapping System (TIMS):
 
-* PCR Local
 * PCR State
 * Predicted PCR
-* Road Inventory
 * Traffic Congestion
 
-We recommend that you use data from your state's department of transportation. The data download portal for ODOT can be found at <https://gis.dot.state.oh.us/tims/Data/Download>, and the data glossary can be found at <https://gis.dot.state.oh.us/tims/Glossary>. Also, please note that **all data must be formatted as a CSV file**.
+We recommend that you use data from your state's department of transportation. The data download portal for ODOT can be found at <https://gis.dot.state.oh.us/tims/Data/Download>, and the data glossary can be found at <https://gis.dot.state.oh.us/tims/Glossary>. Truncated versions of these datasets are also included in the *Example Data Folder* in this repository. Also, please note that **all data must be formatted as a CSV file**.
 
 ### Example Parameters
-Example parameters for the data we used (as shown above) will be added in an *Example Parameters Folder*.
+Example parameters for the data we used are in the *Example Parameters Folder*. We recommend you use these parameters for testing only. Also, if you choose to use them, please note that you will have to update the paths of the databases in *Example Parameters/dataset_settings.csv* file. 
 
 ### Platform
-This program uses JavaSE-1.8 and Java Swing.
+This program uses JavaSE-1.8 and AWT Swing.
 
 ### Performance
 Depending on the amount of data imported, this program may need a lot of memory space. If it throws an OutOfMemory error, we recommend adding the flag `-Xmx2G` (or something like it). This allocates 2GB of ram to the program, so other programs may run slowly while the app is calculating its output. The amount of memory may need to be adjusted as well.
 
-## How to Use this Program
+## Basic Instructions in How to Use this Program
 
 **Uploading Data:** This is the first step. Add databases by clicking on the "Data" tab (you should already be there if you just opened the application) and then clicking on the "Add" button. In the box that opens, give the database a name and choose a file for the database (it must be a csv). The name is used to reference the database later on. Once you finish adding your databases, click the "Load Data Paths and Columns" button. This allows the program to read the columns of the databases and save them to memory so that they can be referenced individually.
 

@@ -4,4 +4,3 @@ Errors:
 
 Tasks:
 * Add reference for non-numeric columns
-* Integrate Contractors

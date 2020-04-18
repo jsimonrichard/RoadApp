@@ -145,7 +145,7 @@ public class SettingsWindow extends JFrame {
 				break;
 				
 			case "weight":
-				inputs[i] = new SpinnerInput(new SpinnerNumberModel(0.5, 0, 1, 0.05));
+				inputs[i] = new SpinnerInput(new SpinnerNumberModel(0.5, Integer.MIN_VALUE, Integer.MAX_VALUE, 0.05));
 				break;
 			
 			case "int":

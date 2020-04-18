@@ -290,7 +290,8 @@ public class Scheduler {
 		for(int i = 0; i < contractor_data.length; i++) {
 			// Assign to as many roads as possible
 			int job_index = 0;
-			while(job_index < (int) contractor_data[i][1] && road_index < length_scores.length) {
+			int max_jobs = Integer.valueOf(contractor_data[i][1].toString());
+			while(job_index < max_jobs && road_index < length_scores.length) {
 				// Assign Values
 				output_contractors[road_index] = (String) contractor_data[i][0];
 				output_costs[road_index] = ((Double) contractor_data[i][2]) * ((Double) length_scores[road_index]);
