@@ -107,7 +107,7 @@ public class Scheduler {
 			}
 			
 			if(!ids_assigned) {
-				System.out.println("ID not assign");
+				System.out.println("ID not assigned");
 			}
 			
 			id_lists.add(ids);

@@ -36,7 +36,7 @@ public class NewCSV {
 			String[] stringrow = new String[row.length];
 			for(int i=0;i<row.length;i++) {
 				try {
-					stringrow[i] = (String) row[i];
+					stringrow[i] = row[i].toString();
 				} catch (Exception e) {
 					stringrow[i] = "";
 					e.printStackTrace();

@@ -47,7 +47,6 @@ public class MainWindow {
 	// Defaults
 	String[] datapanel_colnames = {"Name", "File Path"};
 	String[] datapanel_coltypes = {"string", "file"};
-	private Object[][] datapanel_default = {{"Road Inventory", "/Users/simonrichard/Desktop/Design Challenge Spring 2020/tims_csv_datasets/WGIS_ROAD_INVENTORY.csv"}};
 	
 	String[] contractorpanel_colnames = {"Name", "Number of Jobs to Schedule", "Cost per Length Unit"};
 	String[] contractorpanel_coltypes = {"string", "int", "cost"};
@@ -114,7 +113,7 @@ public class MainWindow {
 		panel_3.add(btnNewButton_1);
 		
 		// Add Data Panel
-		datapanel = new ParameterPanel(this, true, datapanel_colnames, datapanel_coltypes, datapanel_default);
+		datapanel = new ParameterPanel(this, true, datapanel_colnames, datapanel_coltypes);
 		panel.add(datapanel, BorderLayout.CENTER);
 		
 		// Macro Parameter Pane
