@@ -1,5 +1,7 @@
 package RoadApp.window;
 
+import java.io.InputStream;
+import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
@@ -8,7 +10,7 @@ public class WindowHandler {
 	MainWindow mainWindow;
 	
 	public void splash() throws InterruptedException {
-		ImageIcon img = new ImageIcon(getClass().getResource("img/splash.png"));
+		ImageIcon img = new ImageIcon(getClass().getResource("/splash.png"));
 		Splash s = new Splash(this, img);
         Thread.sleep(2000); // Wait for the splash screen (needs to allow time for image to appear).
         s.dispose();

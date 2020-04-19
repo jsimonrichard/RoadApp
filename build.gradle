@@ -32,3 +32,17 @@ application {
     // Define the main class for the application.
     mainClassName = 'RoadApp.App'
 }
+
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/resources"
+        }
+    }
+
+    test {
+        resources {
+	    srcDirs "src/test/resources"
+	}
+    }
+}
