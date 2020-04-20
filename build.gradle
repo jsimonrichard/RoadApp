@@ -12,6 +12,9 @@ plugins {
 
     // Apply the application plugin to add support for building a CLI application.
     id 'application'
+
+    // Add macOS app functionality
+    id "edu.sc.seis.macAppBundle" version "2.3.0"
 }
 
 repositories {
@@ -45,4 +48,8 @@ sourceSets {
 	    srcDirs "src/test/resources"
 	}
     }
+}
+
+macAppBundle {
+    mainClassName = "RoadApp.App"
 }
