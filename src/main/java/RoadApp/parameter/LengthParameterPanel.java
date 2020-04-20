@@ -44,7 +44,7 @@ public class LengthParameterPanel extends MacroParameterPanel {
 		public void actionPerformed(ActionEvent e) {
 			String[] colnames = {"Column"};
 			String[] coltypes = {"column"};
-			ParameterWindow pw = new ParameterWindow(this2, colnames, coltypes, parameters);
+			ParameterWindow pw = new ParameterWindow(this2, "Edit Length Parameters", colnames, coltypes, parameters);
 			pw.frame.setVisible(true);
 		}
 		

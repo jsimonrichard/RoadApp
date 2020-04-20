@@ -20,22 +20,22 @@ public class Scheduler {
 	
 	JFrame parent_frame;
 	
-	HashMap<String,String> id_map;
+	String id_address;
 	HashMap<String,String[]> colname_map;
 	HashMap<String,String> path_map;
 	MacroPanel macropanel;
 	ParameterPanel contractorpanel;
 	
-	ArrayList<Object[]> id_lists;
+	Object[] id_list;
 	HashMap<String,Object[]> column_value_map;
 	
 	String[] output_colnames = {"ID", "Score", "Recommended Contractor", "Cost with that Contractor"};
 	Object[][] output;
 	
-	public Scheduler(JFrame parent_frame, HashMap<String,String> id_map, HashMap<String,String[]> colname_map, HashMap<String,String> path_map, MacroPanel macropanel, ParameterPanel contractorpanel) {
+	public Scheduler(JFrame parent_frame, Object id_address, HashMap<String,String[]> colname_map, HashMap<String,String> path_map, MacroPanel macropanel, ParameterPanel contractorpanel) {
 		this.parent_frame = parent_frame;
 		
-		this.id_map = id_map;
+		this.id_address = id_address.toString();
 		this.colname_map = colname_map;
 		this.path_map = path_map;
 		this.macropanel = macropanel;
@@ -50,7 +50,7 @@ public class Scheduler {
 		HashSet colnames = getColumns();
 		column_value_map = new HashMap<String,Object[]>();
 		
-		id_lists = new ArrayList<Object[]>();
+		boolean ids_assigned = false;
 		
 		System.out.println("Loading Databases");
 		for(String database_name : colname_map.keySet()) {
@@ -60,32 +60,18 @@ public class Scheduler {
 			Object[][] data = csvio.read();
 			csvio.close();
 			
-			// Check Id column
-			String id_column_address;
-			try {
-				id_column_address = id_map.get(database_name);
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(parent_frame,
-						String.format("No ID column found for %s. \n Scheduling aborted.", database_name),
-						"ID Column not Found",
-					    JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
-				return 0;
-			}
-			
 			// Tf any of the columns are needed then add them to map
 			// Also check for id column
-			Object[] ids = new Object[data.length-1];
-			boolean ids_assigned = false;
 			
 			for(int colindex = 0; colindex < data[0].length; colindex++) {
 				String address = String.format("%s/%s", database_name, data[0][colindex]);
 				// Check if it's the id column
-				if(id_column_address.equals(address)) {
-					System.out.println(String.format("Found ID Column for %s.", database_name));
+				if(id_address.equals(address)) {
+					System.out.println(String.format("Found ID Column in %s.", database_name));
 					ids_assigned = true;
+					id_list = new Object[data.length-1];
 					for(int rowindex = 1; rowindex<data.length; rowindex++) { // don't include column name
-						ids[rowindex-1] = data[rowindex][colindex];
+						id_list[rowindex-1] = data[rowindex][colindex];
 					}
 				}
 				
@@ -100,18 +86,20 @@ public class Scheduler {
 					column_value_map.put(address, values);
 				}
 			}
-			
-			if(!ids_assigned) {
-				System.out.println("ID not assigned");
-			}
-			
-			id_lists.add(ids);
+		}
+		
+		if(!ids_assigned) {
+			JOptionPane.showMessageDialog(parent_frame,
+					"No ID column found. \n Scheduling aborted.",
+					"ID Column not Found",
+				    JOptionPane.ERROR_MESSAGE);
+			return 0;
 		}
 		
 		System.out.println("Finding and Calculating Scores");
 		// Calculate Scores
-		ArrayList<Double> damage_scores = getScores(macropanel.damage_panel.parameters, id_lists.get(0).length);
-		ArrayList<Double> traffic_scores = getScores(macropanel.traffic_panel.parameters, id_lists.get(0).length);
+		ArrayList<Double> damage_scores = getScores(macropanel.damage_panel.parameters, id_list.length);
+		ArrayList<Double> traffic_scores = getScores(macropanel.traffic_panel.parameters, id_list.length);
 		
 		ArrayList<Double> damage_weighted_scores = multiply(damage_scores, (double) macropanel.damage_panel.weightmodel.getValue());
 		ArrayList<Double> traffic_weighted_scores = multiply(traffic_scores, (double) macropanel.traffic_panel.weightmodel.getValue());
@@ -123,11 +111,11 @@ public class Scheduler {
 		Double[] scores = sum(weighted_scores);
 		
 		// Data for cost
-		ArrayList<Double> length_scores = getScoresNoWeights(macropanel.length_panel.parameters, id_lists.get(0).length);
+		ArrayList<Double> length_scores = getScoresNoWeights(macropanel.length_panel.parameters, id_list.length);
 		
 		// Sort
 		System.out.println("Sorting...");
-		Object[][] data = {id_lists.get(0), scores, length_scores.toArray()};
+		Object[][] data = {id_list, scores, length_scores.toArray()};
 		Object[][] sorted_data = sortWithDouble(transpose(data), 1, -1);
 		System.out.println("Finished!");
 		
@@ -263,6 +251,20 @@ public class Scheduler {
 	private Object[][] scheduleContractors(Object[] length_scores) {
 		// Get data from contractor panel and convert to array
 		Object[] contractor_data_halfway = contractorpanel.model.getDataVector().toArray();
+		
+		if(contractor_data_halfway.length == 0) {
+			System.out.println("No Contractors!");
+			
+			String[] contractor_names = new String[length_scores.length];
+			Double[] costs = new Double[length_scores.length];
+			
+			Arrays.fill(contractor_names, "No Contractors");
+			Arrays.fill(costs, 0.0);
+			
+			Object[][] output = {contractor_names, costs};
+			return output;
+		}
+		
 		Object[][] contractor_data = new Object[contractor_data_halfway.length][((Vector) contractor_data_halfway[0]).size()];
 		for(int i = 0; i < contractor_data_halfway.length; i++) {
 			contractor_data[i] = ((Vector) contractor_data_halfway[i]).toArray();

@@ -23,18 +23,18 @@ public class IDParameterPanel extends MacroParameterPanel {
 	public void initialize() {
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JButton btnNewButton = new JButton("Choose ID Columns");
-		btnNewButton.addActionListener(new ChooseIDColumns());
+		JButton btnNewButton = new JButton("Choose ID Column");
+		btnNewButton.addActionListener(new ChooseIDColumn());
 		add(btnNewButton);
 	}
 	
-	public class ChooseIDColumns implements ActionListener {
+	public class ChooseIDColumn implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String[] colnames = {"Database/ID Column"};
 			String[] coltypes = {"column"};
-			ParameterWindow pw = new ParameterWindow(this2, colnames, coltypes, parameters);
+			ParameterWindow pw = new ParameterWindow(this2, "Edit ID Column", colnames, coltypes, parameters);
 			pw.frame.setVisible(true);
 		}
 		

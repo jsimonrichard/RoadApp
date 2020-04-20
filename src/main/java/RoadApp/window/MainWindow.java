@@ -51,7 +51,6 @@ public class MainWindow {
 	// Data Variables
 	public boolean data_loaded = false;
 	
-	HashMap<String,String> id_map;
 	public HashMap<String,String[]> colname_map;
 	HashMap<String,String> path_map;
 	private JPanel panel_1;
@@ -72,7 +71,7 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("RoadApp");
 		frame.setBounds(100, 100, 800, 600);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -194,16 +193,8 @@ public class MainWindow {
 				e2.printStackTrace();
 			}
 			
-			// Load id_map
-			System.out.println("Loading ID map");
-			id_map = new HashMap<String,String>();
-			for(int i = 0; i<macrosubpanel.id_panel.parameters.length; i++) {
-				String database_name = ((String) macrosubpanel.id_panel.parameters[i][0]).split("/")[0];
-				id_map.put(database_name, (String) macrosubpanel.id_panel.parameters[i][0]);
-			}
-			
 			// Schedule
-			Scheduler scheduler = new Scheduler(frame, id_map, colname_map, path_map, macrosubpanel, contractorpanel);
+			Scheduler scheduler = new Scheduler(frame, macrosubpanel.id_panel.parameters[0][0], colname_map, path_map, macrosubpanel, contractorpanel);
 			System.out.println("Calculating...");
 			try {
 				scheduler.calculate();

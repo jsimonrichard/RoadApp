@@ -17,6 +17,7 @@ public class ParameterWindow {
 	
 	public JFrame frame;
 	private ParameterPanel panel;
+	private String caption;
 
 	/**
 	 * Create the application.
@@ -24,14 +25,16 @@ public class ParameterWindow {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public ParameterWindow(MacroParameterPanel parent, String[] cn, String[] ct, Object[][] data)  {
+	public ParameterWindow(MacroParameterPanel parent, String caption, String[] cn, String[] ct, Object[][] data)  {
 		this.parent = parent;
+		this.caption = caption;
 		panel = new ParameterPanel(this, cn, ct, data);
 		initialize();
 	}
 	
-	public ParameterWindow(MacroParameterPanel parent, String[] cn, String[] ct)  {
+	public ParameterWindow(MacroParameterPanel parent, String caption, String[] cn, String[] ct)  {
 		this.parent = parent;
+		this.caption = caption;
 		panel = new ParameterPanel(this, cn, ct);
 		initialize();
 	}
@@ -40,7 +43,7 @@ public class ParameterWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame(caption);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));

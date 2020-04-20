@@ -59,7 +59,7 @@ public class MacroParameterPanel extends JPanel {
 		JLabel lblNewLabel_3 = new JLabel("Weight:");
 		panel_3.add(lblNewLabel_3);
 		
-		weightmodel = new SpinnerNumberModel(0.5, 0, 1, 0.05);   
+		weightmodel = new SpinnerNumberModel(0.5, Integer.MIN_VALUE, Integer.MAX_VALUE, 0.05);   
 		
 		JSpinner weight = new JSpinner(weightmodel);
 		weight.setPreferredSize(new Dimension(75, 26));
@@ -76,7 +76,8 @@ public class MacroParameterPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			String[] colnames = {"Column", "Weight"};
 			String[] coltypes = {"column", "weight"};
-			ParameterWindow pw = new ParameterWindow(this2, colnames, coltypes, parameters);
+			String caption = String.format("Edit %s Parameters", fieldname);
+			ParameterWindow pw = new ParameterWindow(this2, caption, colnames, coltypes, parameters);
 			pw.frame.setVisible(true);
 		}
 		
