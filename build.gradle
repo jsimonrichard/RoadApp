@@ -62,10 +62,10 @@ subprojects {
         repositories {
             maven {
                 name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/jsimonrichard/RoadApp")
+                url = uri("https://maven.pkg.github.com/jsimonrichard/roadapp")
                 credentials {
-                    username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                    password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+                    username = "jsimonrichard"
+                    password = "c727c24f1d3ea44b61b88711551a5ad3c2409627"
                 }
             }
         }
