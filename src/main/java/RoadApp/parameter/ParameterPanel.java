@@ -183,7 +183,7 @@ public class ParameterPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// File Dialogue (only csv)
-			JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+			JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView());
 			jfc.setDialogTitle("Import Settings");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv");
 			jfc.setAcceptAllFileFilterUsed(false);
@@ -217,7 +217,7 @@ public class ParameterPanel extends JPanel {
 	public class ExportParameters implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+			JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView());
 			jfc.setDialogTitle("Export Settings");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv");
 			jfc.setAcceptAllFileFilterUsed(false);
