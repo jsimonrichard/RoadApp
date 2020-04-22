@@ -6,6 +6,7 @@ RoadApp is a parametrized scheduling platform for road maintenance created for i
 ### Recommended Data
 In order to test and evaluate this our program we used the following data from the Ohio Department of Transportation's (ODOT) Transportation Information Mapping System (TIMS):
 
+* Road Inventory
 * PCR State
 * Predicted PCR
 * Traffic Congestion
