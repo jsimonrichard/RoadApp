@@ -35,4 +35,4 @@ You must also add an ID column for each database. The id column of the first dat
 
 **Scheduling:** Once you are done with all of these things, you can click the big "Schedule" button at the bottom of the window. The program will appear to freeze, but this is normal; the program is reading the databases and generating the schedule, and it takes quite a long time. On my laptop, the program takes from about 100 to 200 seconds to run. Once it is done, a window with the schedule will pop up. From there, you can close the application, go back to the main window, or save the generated schedule.
 
-**Note:** All of the tables and parameters in the program can be imported or exported as csv files.
+**Note:** All of the tables and parameters in the program can be imported and exported as csv files.
