@@ -1,3 +1,10 @@
-Name,Number of Jobs to Schedule,Cost per Length Unit
-Phil's Construction Service,11,9400.0
-Bob's Resufacing,5,11000.0
+Name,Number of Jobs to Schedule,Cost per Length Unit,,
+Phil's Construction Service,2,"9,400",,
+Bob's Resurfacing,4,"11,000",,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
