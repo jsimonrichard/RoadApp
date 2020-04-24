@@ -56,5 +56,8 @@ macAppBundle {
 }
 
 launch4j {
-  mainClassName = 'RoadAdd.App'
+    headerType = "gui"
+    mainClassName = 'RoadAdd.Launch4jApp'
+    outfile = "RoadApp.exe"
+    splashFileName = "src/main/resources/splash.bmp"
 }
